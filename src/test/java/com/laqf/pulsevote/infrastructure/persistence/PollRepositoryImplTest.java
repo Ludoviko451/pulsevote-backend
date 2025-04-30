@@ -8,14 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-
 import java.time.LocalDate;
 import java.util.List;
-
-import static org.hamcrest.Matchers.any;
 import static org.mockito.Mockito.*;
 
-public class PollRepositoryImplTest {
+class PollRepositoryImplTest {
 
     private ReactiveMongoTemplate reactiveMongoTemplate;
     private  IPollsEntityMapper pollEntityMapper;

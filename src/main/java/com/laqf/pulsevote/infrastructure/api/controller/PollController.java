@@ -4,6 +4,7 @@ import com.laqf.pulsevote.aplication.usecase.CreatePollUseCase;
 import com.laqf.pulsevote.domain.model.Poll;
 import com.laqf.pulsevote.infrastructure.api.dto.PollRequest;
 import com.laqf.pulsevote.infrastructure.api.mappers.IPollRequestMapper;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class PollController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<Poll>> createPoll(@RequestBody PollRequest pollRequest) {
+    public Mono<ResponseEntity<Poll>> createPoll(@Valid @RequestBody PollRequest pollRequest) {
 
         return createPollUseCase.createPoll(pollRequestMapper.map(pollRequest))
                 .map(poll -> ResponseEntity.status(HttpStatus.CREATED).body(poll));

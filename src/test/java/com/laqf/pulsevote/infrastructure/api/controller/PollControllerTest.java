@@ -7,16 +7,9 @@ import com.laqf.pulsevote.infrastructure.api.mappers.IPollRequestMapper;
 import com.laqf.pulsevote.utils.Mocks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -41,10 +34,8 @@ class PollControllerTest {
 
     @Test
     void createPollTest() {
-        PollRequest pollRequest = new PollRequest();
-        pollRequest.setQuestion("test");
-        pollRequest.setOptions(List.of());
-        Poll poll = Mocks.mockPoll();
+        PollRequest pollRequest = Mocks.mockPollRequest();
+        Poll poll = Mocks.mockPollWithOptions();
 
         when(createPollUseCase.createPoll(pollRequestMapper.map(pollRequest))).thenReturn(Mono.just(poll));
 
@@ -52,7 +43,7 @@ class PollControllerTest {
                 .post()
                 .uri("/polls")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(Mono.just(poll), Poll.class)
+                .body(Mono.just(pollRequest), PollRequest.class)
                 .exchange()
                 .expectStatus().isCreated();
     }
