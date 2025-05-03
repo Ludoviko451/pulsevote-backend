@@ -2,7 +2,9 @@ package com.laqf.pulsevote.utils;
 
 import com.laqf.pulsevote.domain.model.Option;
 import com.laqf.pulsevote.domain.model.Poll;
+import com.laqf.pulsevote.infrastructure.api.dto.OptionResponse;
 import com.laqf.pulsevote.infrastructure.api.dto.PollRequest;
+import com.laqf.pulsevote.infrastructure.api.dto.PollResponse;
 import com.laqf.pulsevote.infrastructure.persistence.entity.OptionEntity;
 import com.laqf.pulsevote.infrastructure.persistence.entity.PollEntity;
 
@@ -38,5 +40,11 @@ public class Mocks {
 
     public static PollRequest mockPollRequest() {
         return new PollRequest(DEFAULT_QUESTION, List.of("option", "option2"));
+    }
+
+    public static List<PollResponse> mockPollResponses() {
+        OptionResponse option = new OptionResponse("1", "option", 0);
+        OptionResponse option2 = new OptionResponse("2", "option2", 0);
+        return List.of(new PollResponse(DEFAULT_ID, DEFAULT_QUESTION, List.of(option, option2), DEFAULT_DATE, DEFAULT_ACTIVE));
     }
 }

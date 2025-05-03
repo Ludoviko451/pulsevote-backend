@@ -8,5 +8,5 @@ public interface PollRepository {
 
     Mono<Poll> savePoll(Poll poll);
     Mono<Poll> getPollById(String id);
-    Flux<Poll> getAllPolls();
+    Flux<Poll> getAllPolls(int page, int size, boolean active);
 }

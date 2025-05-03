@@ -3,12 +3,14 @@ package com.laqf.pulsevote.infrastructure.persistence;
 import com.laqf.pulsevote.domain.model.Poll;
 import com.laqf.pulsevote.infrastructure.persistence.entity.PollEntity;
 import com.laqf.pulsevote.infrastructure.persistence.mapper.IPollsEntityMapper;
+import com.laqf.pulsevote.utils.Mocks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import java.time.LocalDate;
+import org.springframework.data.mongodb.core.query.Query;
 import java.util.List;
 import static org.mockito.Mockito.*;
 
@@ -28,8 +30,8 @@ class PollRepositoryImplTest {
 
     @Test
     void savePollTest() {
-        Poll poll = new Poll("1", "test", List.of(), LocalDate.now(), true);
-        PollEntity pollEntity = new PollEntity("1", "test", List.of(), LocalDate.now(), true);
+        Poll poll = Mocks.mockPoll();
+        PollEntity pollEntity = Mocks.mockPollEntity();
 
         // Stubbing del mapper y template
         when(pollEntityMapper.map(poll)).thenReturn(pollEntity);
@@ -48,5 +50,20 @@ class PollRepositoryImplTest {
         verify(pollEntityMapper).map(poll);
         verify(reactiveMongoTemplate).save(pollEntity);
         verify(pollEntityMapper).map(pollEntity);
+    }
+
+    @Test
+    void getAllPollsTest() {
+        PollEntity entity = Mocks.mockPollEntity();
+        Poll domainPoll = Mocks.mockPoll();
+
+        when(reactiveMongoTemplate.find(any(Query.class), eq(PollEntity.class)))
+                .thenReturn(Flux.just(entity));
+
+        when(pollEntityMapper.map(entity)).thenReturn(domainPoll);
+
+        StepVerifier.create(pollRepository.getAllPolls(0, 10, true))
+                .expectNext(domainPoll)
+                .verifyComplete();
     }
 }

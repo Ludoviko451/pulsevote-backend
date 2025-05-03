@@ -33,6 +33,7 @@ class PollsEntityMapperTest {
         assertEquals("question", pollEntity.getQuestion());
         assertEquals("option", pollEntity.getOptions().get(0).getText());
         assertEquals("option2", pollEntity.getOptions().get(1).getText());
+        assertEquals(0, pollEntity.getOptions().get(0).getVotes());
 
     }
 
@@ -46,6 +47,7 @@ class PollsEntityMapperTest {
         assertEquals("question", poll.getQuestion());
         assertEquals("option", poll.getOptions().get(0).getText());
         assertEquals("option2", poll.getOptions().get(1).getText());
+        assertEquals(0, poll.getOptions().get(0).getVotes());
 }
 
 }
