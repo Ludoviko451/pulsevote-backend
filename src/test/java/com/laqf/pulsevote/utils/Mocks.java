@@ -23,8 +23,8 @@ public class Mocks {
     }
 
     public static Poll mockPollWithOptions() {
-        Option option = new Option(1, "option");
-        Option option2 = new Option(2, "option2");
+        Option option = new Option(1, "option", 0);
+        Option option2 = new Option(2, "option2", 0);
         return new Poll(DEFAULT_ID, DEFAULT_QUESTION, List.of(option, option2), DEFAULT_DATE, DEFAULT_ACTIVE);
     }
 

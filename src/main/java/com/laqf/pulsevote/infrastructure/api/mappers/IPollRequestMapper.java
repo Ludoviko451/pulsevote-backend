@@ -19,6 +19,6 @@ public interface IPollRequestMapper {
 
     default List<Option> map(List<String> options){
         AtomicInteger atomicInteger = new AtomicInteger(1);
-        return options.stream().map(option -> new Option(atomicInteger.getAndIncrement(), option)).toList();
+        return options.stream().map(option -> new Option(atomicInteger.getAndIncrement(), option, 0 )).toList();
     }
 }

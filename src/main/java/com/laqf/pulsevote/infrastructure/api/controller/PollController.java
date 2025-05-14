@@ -2,6 +2,7 @@ package com.laqf.pulsevote.infrastructure.api.controller;
 
 import com.laqf.pulsevote.aplication.usecase.CreatePollUseCase;
 import com.laqf.pulsevote.aplication.usecase.GetAllPollsUseCase;
+import com.laqf.pulsevote.aplication.usecase.VoteOptionUseCase;
 import com.laqf.pulsevote.domain.model.Poll;
 import com.laqf.pulsevote.infrastructure.api.dto.PollRequest;
 import com.laqf.pulsevote.infrastructure.api.dto.PollResponse;
@@ -21,13 +22,15 @@ public class PollController {
 
     private final CreatePollUseCase createPollUseCase;
     private final GetAllPollsUseCase getAllPollsUseCase;
+    private final VoteOptionUseCase voteOptionUseCase;
     private final IPollRequestMapper pollRequestMapper;
     private final IPollResponseMapper pollResponseMapper;
 
 
-    public PollController(CreatePollUseCase createPollUseCase, GetAllPollsUseCase getAllPollsUseCase, IPollRequestMapper pollRequestMapper, IPollResponseMapper pollResponseMapper) {
+    public PollController(CreatePollUseCase createPollUseCase, GetAllPollsUseCase getAllPollsUseCase, VoteOptionUseCase voteOptionUseCase, IPollRequestMapper pollRequestMapper, IPollResponseMapper pollResponseMapper) {
         this.createPollUseCase = createPollUseCase;
         this.getAllPollsUseCase = getAllPollsUseCase;
+        this.voteOptionUseCase = voteOptionUseCase;
         this.pollRequestMapper = pollRequestMapper;
         this.pollResponseMapper = pollResponseMapper;
     }
@@ -49,6 +52,12 @@ public class PollController {
         return getAllPollsUseCase.getAllPolls(page,size, active)
                 .collectList()
                 .map(polls -> ResponseEntity.ok(pollResponseMapper.map(polls)));
+    }
+
+    @PutMapping
+    public Mono<ResponseEntity<Poll>> voteOption(@RequestParam String pollId, @RequestParam String optionId) {
+        return voteOptionUseCase.voteOption(pollId, optionId)
+                .map(ResponseEntity::ok);
     }
 
 }

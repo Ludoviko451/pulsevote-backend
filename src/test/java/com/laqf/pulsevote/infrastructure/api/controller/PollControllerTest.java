@@ -2,6 +2,7 @@ package com.laqf.pulsevote.infrastructure.api.controller;
 
 import com.laqf.pulsevote.aplication.usecase.CreatePollUseCase;
 import com.laqf.pulsevote.aplication.usecase.GetAllPollsUseCase;
+import com.laqf.pulsevote.aplication.usecase.VoteOptionUseCase;
 import com.laqf.pulsevote.domain.model.Poll;
 import com.laqf.pulsevote.infrastructure.api.dto.PollRequest;
 import com.laqf.pulsevote.infrastructure.api.dto.PollResponse;
@@ -25,6 +26,7 @@ class PollControllerTest {
     private WebTestClient webTestClient;
     private CreatePollUseCase createPollUseCase;
     private GetAllPollsUseCase getAllPollsUseCase;
+    private VoteOptionUseCase voteOptionUseCase;
     private IPollRequestMapper pollRequestMapper;
     private IPollResponseMapper pollResponseMapper;
 
@@ -35,7 +37,7 @@ class PollControllerTest {
         pollRequestMapper = mock(IPollRequestMapper.class);
         pollResponseMapper = mock(IPollResponseMapper.class);
         webTestClient = WebTestClient.bindToController(
-                new PollController(createPollUseCase, getAllPollsUseCase, pollRequestMapper, pollResponseMapper)
+                new PollController(createPollUseCase, getAllPollsUseCase, voteOptionUseCase, pollRequestMapper, pollResponseMapper)
         ).build();
     }
 

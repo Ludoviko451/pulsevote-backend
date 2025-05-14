@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 public interface PollRepository {
 
     Mono<Poll> savePoll(Poll poll);
-    Mono<Poll> getPollById(String id);
     Flux<Poll> getAllPolls(int page, int size, boolean active);
+
+    Mono<Poll> voteOption(String pollId, String optionId);
 }

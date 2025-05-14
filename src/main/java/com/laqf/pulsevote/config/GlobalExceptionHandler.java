@@ -1,5 +1,6 @@
 package com.laqf.pulsevote.config;
 
+import com.laqf.pulsevote.config.exception.OptionNotFoundException;
 import com.laqf.pulsevote.config.exception.PollsNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PollsNotFoundException.class)
     public Mono<ResponseEntity<String>> handlePollsNotFoundException(PollsNotFoundException e) {
+        return Mono.just(ResponseEntity
+                .status(404) // o .notFound()
+                .body(e.getMessage()));
+    }
+
+    @ExceptionHandler(OptionNotFoundException.class)
+    public Mono<ResponseEntity<String>> handleOptionNotFoundException(OptionNotFoundException e) {
         return Mono.just(ResponseEntity
                 .status(404) // o .notFound()
                 .body(e.getMessage()));
